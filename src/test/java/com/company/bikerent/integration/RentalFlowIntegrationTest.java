@@ -80,7 +80,7 @@ class RentalFlowIntegrationTest extends BaseIntegrationTest {
 
         testBicycle = new Bicycle();
         testBicycle.setModel("Test Bike");
-        testBicycle.setType(BicycleType.CITY);
+        testBicycle.setType(BicycleType.MOUNTAIN);
         testBicycle.setStatus(BicycleStatus.AVAILABLE);
         testBicycle.setStation(startStation);
         testBicycle.setMileage(0L);
