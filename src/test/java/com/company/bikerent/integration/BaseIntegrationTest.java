@@ -6,34 +6,49 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testcontainers.containers.PostgreSQLContainer;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@Testcontainers
 @ActiveProfiles("test")
 public abstract class BaseIntegrationTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Container
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine")
-            .withDatabaseName("bikerent_test")
-            .withUsername("test")
-            .withPassword("test");
+    private static PostgreSQLContainer<?> postgres;
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
+        String datasourceUrl = System.getenv("SPRING_DATASOURCE_URL");
+        String datasourceUsername = System.getenv("SPRING_DATASOURCE_USERNAME");
+        String datasourcePassword = System.getenv("SPRING_DATASOURCE_PASSWORD");
+
+        if (datasourceUrl != null && !datasourceUrl.isBlank()) {
+            registry.add("spring.datasource.url", () -> datasourceUrl);
+            if (datasourceUsername != null && !datasourceUsername.isBlank()) {
+                registry.add("spring.datasource.username", () -> datasourceUsername);
+            }
+            if (datasourcePassword != null && !datasourcePassword.isBlank()) {
+                registry.add("spring.datasource.password", () -> datasourcePassword);
+            }
+        } else {
+            postgres = new PostgreSQLContainer<>("postgres:15-alpine")
+                    .withDatabaseName("bikerent_test")
+                    .withUsername("test")
+                    .withPassword("test");
+            postgres.start();
+
+            registry.add("spring.datasource.url", postgres::getJdbcUrl);
+            registry.add("spring.datasource.username", postgres::getUsername);
+            registry.add("spring.datasource.password", postgres::getPassword);
+        }
+
         registry.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
         registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
+        registry.add("spring.flyway.enabled", () -> "false");
     }
 
     @BeforeEach
