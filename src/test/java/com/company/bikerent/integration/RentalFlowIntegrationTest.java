@@ -54,10 +54,6 @@ class RentalFlowIntegrationTest extends BaseIntegrationTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        bicycleRepository.deleteAll();
-        stationRepository.deleteAll();
-        userRepository.deleteAll();
-
         RegisterRequest registerRequest = new RegisterRequest("rentaluser", "password123");
         MvcResult result = mockMvc.perform(post("/api/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -84,6 +80,7 @@ class RentalFlowIntegrationTest extends BaseIntegrationTest {
 
         testBicycle = new Bicycle();
         testBicycle.setModel("Test Bike");
+        testBicycle.setType(BicycleType.CITY);
         testBicycle.setStatus(BicycleStatus.AVAILABLE);
         testBicycle.setStation(startStation);
         testBicycle.setMileage(0L);

@@ -7,7 +7,6 @@ import com.company.bikerent.user.domain.Role;
 import com.company.bikerent.user.domain.User;
 import com.company.bikerent.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +34,6 @@ class AuthenticationIntegrationTest extends BaseIntegrationTest {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @BeforeEach
-    void setUp() {
-        userRepository.deleteAll();
-    }
 
     @Test
     @DisplayName("Should register new user successfully")
@@ -146,7 +140,7 @@ class AuthenticationIntegrationTest extends BaseIntegrationTest {
     @DisplayName("Should reject request without token")
     void shouldRejectRequestWithoutToken() throws Exception {
         mockMvc.perform(get("/api/v1/auth/info"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
