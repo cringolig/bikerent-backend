@@ -1,9 +1,9 @@
 package com.company.bikerent.maintenance.repository;
 
-import com.company.bikerent.maintenance.domain.Technician;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.company.bikerent.maintenance.domain.Technician;
+
 @Repository
-public interface TechnicianRepository extends JpaRepository<Technician, Long> {
-}
+public interface TechnicianRepository extends JpaRepository<Technician, Long> {}

@@ -1,7 +1,7 @@
 package com.company.bikerent.bicycle.domain;
 
 public enum BicycleStatus {
-    AVAILABLE,
-    RENTED,
-    UNAVAILABLE
+  AVAILABLE,
+  RENTED,
+  UNAVAILABLE
 }

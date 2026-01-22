@@ -27,6 +27,7 @@ logs/
 
 # Maven
 .mvn/repository/
+.m2/
 
 # Package files
 *.jar
