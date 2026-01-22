@@ -69,7 +69,7 @@ jobs:
           SPRING_DATASOURCE_PASSWORD: postgres
 
       - name: Run Integration Tests
-        run: mvn verify -DskipUnitTests -B -Dspring.profiles.active=test
+        run: mvn verify -DskipUnitTests=true -B -Dspring.profiles.active=test
         working-directory: .
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/bikerent_test
