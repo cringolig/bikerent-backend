@@ -1,0 +1,42 @@
+# Gitleaks configuration
+# https://github.com/gitleaks/gitleaks
+
+title = "BikeRent Gitleaks Configuration"
+
+[allowlist]
+description = "Global allowlist"
+paths = [
+    '''.env\.example$''',
+    '''application-test\.properties$''',
+    '''README\.md$''',
+]
+
+# Custom rules for our project
+[[rules]]
+id = "jwt-secret-in-code"
+description = "JWT Secret in code"
+regex = '''(?i)(jwt[_-]?secret|secret[_-]?key)\s*[:=]\s*["']?[A-Za-z0-9+/=]{32,}["']?'''
+tags = ["key", "JWT"]
+
+[[rules]]
+id = "database-password"
+description = "Database password in code"
+regex = '''(?i)(db[_-]?pass(word)?|postgres[_-]?pass(word)?)\s*[:=]\s*["']?[^\s"']{8,}["']?'''
+tags = ["password", "database"]
+
+[[rules]]
+id = "api-key"
+description = "API Key"
+regex = '''(?i)(api[_-]?key|apikey)\s*[:=]\s*["']?[A-Za-z0-9]{20,}["']?'''
+tags = ["key", "API"]
+
+# Allowlist specific patterns (test values, placeholders)
+[[rules.allowlist]]
+regexes = [
+    '''CHANGE_ME''',
+    '''GENERATE_A_SECURE''',
+    '''your-.*-here''',
+    '''<.*>''',
+    '''test-secret''',
+    '''example\.com''',
+]

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <!-- Exclude Lombok-generated code -->
+    <Match>
+        <Class name="~.*\$.*Builder"/>
+    </Match>
+    
+    <!-- Exclude MapStruct-generated mappers -->
+    <Match>
+        <Class name="~.*MapperImpl"/>
+    </Match>
+    
+    <!-- Exclude test classes -->
+    <Match>
+        <Class name="~.*Test"/>
+    </Match>
+    <Match>
+        <Class name="~.*Tests"/>
+    </Match>
+    <Match>
+        <Package name="~.*\.test\..*"/>
+    </Match>
+    
+    <!-- Exclude configuration classes -->
+    <Match>
+        <Class name="~.*Config"/>
+        <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2"/>
+    </Match>
+    
+    <!-- Allow returning new Date() in entities -->
+    <Match>
+        <Class name="~com\.company\.bikerent\..*\.domain\..*"/>
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
+</FindBugsFilter>
