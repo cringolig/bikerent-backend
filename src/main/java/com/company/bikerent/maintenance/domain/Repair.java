@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import com.company.bikerent.bicycle.domain.Bicycle;
 
@@ -51,7 +50,6 @@ public class Repair {
   @Column(name = "repair_started_at", nullable = false, updatable = false)
   private LocalDateTime repairStartedAt;
 
-  @UpdateTimestamp
   @Column(name = "repair_ended_at")
   private LocalDateTime repairEndedAt;
 
